@@ -17,8 +17,11 @@ class MainApplication : Application(), ReactApplication {
       object : DefaultReactNativeHost(this) {
         override fun getPackages(): List<ReactPackage> =
             PackageList(this).packages.apply {
+               add(NetworkInfoPackage())
+               add(MyAppPackage())
+               add(ScreenRecorderPackage())
               // Packages that cannot be autolinked yet can be added manually here, for example:
-              // add(MyReactNativePackage())
+              // add(MyReactNativePackage())  add(MyAppPackage())
             }
 
         override fun getJSMainModuleName(): String = "index"
