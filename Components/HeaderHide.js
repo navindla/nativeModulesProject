@@ -20,7 +20,7 @@ const AnimatedAppBar = ({ translateY }) => {
   );
 };
 
-export default function App() {
+export default function HeaderHideComponent() {
   // Animated value to track scroll position
   const scrollY = new Animated.Value(0);
   // Clamp the scroll value within the header height
