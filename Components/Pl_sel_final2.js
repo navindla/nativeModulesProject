@@ -136,33 +136,36 @@ const BothTeamOpponentSelection = ({ navigation, showProgress, hideProgress }) =
 
 
 
-    const callPlayer11Data = () =>{
-        const result = {"myPlayers": [], "nxtOpt": "", "nxtTime": "", "nxtTimeEnd": "", "opnImg": "https://s3.ap-south-1.amazonaws.com/player6sports/pl6Uplods/", "opnName": "av908488", "oponLPlayer": "", "selStartTm": "2024-11-07 12:34:02", "serveCurTime": "2024-11-07 12:34:27", "status": 200, "teamA11": [{"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Ashwanth Valthapa", "orderId": "", "playOrderId": "1", "playerId": "1548", "selBy": 0, "teamName": "FUJ"}, {"avg": 0, "endTime": "", "hs": 0, "imageId": "", "isSel": -1, "name": "Hari Prasanth", "orderId": "", "playOrderId": "1", "playerId": "1827", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Harshit Kaushik", "orderId": "", "playOrderId": "1", "playerId": "1496", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Mayank Choudhary", "orderId": "", "playOrderId": "1", "playerId": "1545", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Nabeel Aziz", "orderId": "", "playOrderId": "1", "playerId": "4779", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Sagar Kalyan", "orderId": "", "playOrderId": "1", "playerId": "1494", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Yusuf Khan", "orderId": "", "playOrderId": "1", "playerId": "1515", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "31/8607.png", "isSel": -1, "name": "Sanchit Sharma", "orderId": "", "playOrderId": "2", "playerId": "1549", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Shival Bawa", "orderId": "", "playOrderId": "2", "playerId": "1547", "selBy": 0, "teamName": "FUJ"}, {"avg": 0, "endTime": "", "hs": 0, "imageId": "", "isSel": -1, "name": "Sumeet Gosain", "orderId": "", "playOrderId": "2", "playerId": "4776", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Zohair Iqbal", "orderId": "", "playOrderId": "2", "playerId": "4778", "selBy": 0, "teamName": "FUJ"}], "teamABan": [{"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Zahid Ali", "orderId": "", "playOrderId": "4", "playerId": "4777", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "8/6952.png", "isSel": -1, "name": "Adeeb Usmani", "orderId": "", "playOrderId": "3", "playerId": "1550", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Hardik Pai", "orderId": "", "playOrderId": "2", "playerId": "1523", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Taimoor Ali", "orderId": "", "playOrderId": "4", "playerId": "1499", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Shazaib Khan", "orderId": "", "playOrderId": "4", "playerId": "1594", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Simranjeet Singh Kang", "orderId": "", "playOrderId": "4", "playerId": "4928", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "2/5570.png", "isSel": -1, "name": "CP Rizwan", "orderId": "", "playOrderId": "2", "playerId": "3801", "selBy": 0, "teamName": "FUJ"}], "teamB11": [{"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Ali Abid", "orderId": "", "playOrderId": "1", "playerId": "1479", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "20/8532.png", "isSel": -1, "name": "Alishan Sharafu", "orderId": "", "playOrderId": "1", "playerId": "834", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Ghulam Murtaza", "orderId": "", "playOrderId": "1", "playerId": "4780", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Haider Ali", "orderId": "", "playOrderId": "1", "playerId": "4786", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Ibrar Shah", "orderId": "", "playOrderId": "1", "playerId": "1482", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Jonathan Figy", "orderId": "", "playOrderId": "1", "playerId": "4781", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Prithvi Madhu", "orderId": "", "playOrderId": "1", "playerId": "4783", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "31/703.png", "isSel": -1, "name": "Rohan Mustafa", "orderId": "", "playOrderId": "1", "playerId": "1484", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Danny Pawson", "orderId": "", "playOrderId": "2", "playerId": "4782", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "19/2483.png", "isSel": -1, "name": "Mohammad Nadeem", "orderId": "", "playOrderId": "2", "playerId": "849", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Osama Shah", "orderId": "", "playOrderId": "2", "playerId": "1480", "selBy": 0, "teamName": "TAD"}], "teamBBan": [{"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Mohammad Qasim", "orderId": "", "playOrderId": "4", "playerId": "1592", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Hamza Rehman", "orderId": "", "playOrderId": "2", "playerId": "4784", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Shehan Dilshan", "orderId": "", "playOrderId": "3", "playerId": "4785", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Muhammad Uzair Khan", "orderId": "", "playOrderId": "4", "playerId": "1488", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Zia Mukhtar", "orderId": "", "playOrderId": "4", "playerId": "1489", "selBy": 0, "teamName": "TAD"}, {"avg": 0, "endTime": "", "hs": 0, "imageId": "", "isSel": -1, "name": "Arran Fernandez", "orderId": "", "playOrderId": "4", "playerId": "4977", "selBy": 0, "teamName": "TAD"}]}
-        selectionTime = result.selStartTm;
-                    setTeamA(result.teamA11);
-                    setTeamB(result.teamB11);
-                    setTeamABench(result.teamABan);
-                    setTeamBBench(result.teamBBan);
-                    setopponentName(result.opnName);
-                    setopponentPic(result.opnImg);
-                    setMyDefaultPlayers(result.myPlayers);
-                    tossWinnerLastPic = result.oponLPlayer.playerId;
-                    if((result.myPlayers).length > 0){
-                        preDefinedPlayers = ((result.myPlayers)[0]);
-                    }
-                    filterTheSelectedData(result.teamA11,result.teamB11,result.teamABan,result.teamBBan);
+    // const callPlayer11Data = () =>{
+    //     const result = {"myPlayers": [], "nxtOpt": "", "nxtTime": "", "nxtTimeEnd": "", "opnImg": "https://s3.ap-south-1.amazonaws.com/player6sports/pl6Uplods/", "opnName": "av908488", "oponLPlayer": "", "selStartTm": "2024-11-07 12:34:02", "serveCurTime": "2024-11-07 12:34:27", "status": 200, "teamA11": [{"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Ashwanth Valthapa", "orderId": "", "playOrderId": "1", "playerId": "1548", "selBy": 0, "teamName": "FUJ"}, {"avg": 0, "endTime": "", "hs": 0, "imageId": "", "isSel": -1, "name": "Hari Prasanth", "orderId": "", "playOrderId": "1", "playerId": "1827", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Harshit Kaushik", "orderId": "", "playOrderId": "1", "playerId": "1496", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Mayank Choudhary", "orderId": "", "playOrderId": "1", "playerId": "1545", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Nabeel Aziz", "orderId": "", "playOrderId": "1", "playerId": "4779", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Sagar Kalyan", "orderId": "", "playOrderId": "1", "playerId": "1494", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Yusuf Khan", "orderId": "", "playOrderId": "1", "playerId": "1515", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "31/8607.png", "isSel": -1, "name": "Sanchit Sharma", "orderId": "", "playOrderId": "2", "playerId": "1549", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Shival Bawa", "orderId": "", "playOrderId": "2", "playerId": "1547", "selBy": 0, "teamName": "FUJ"}, {"avg": 0, "endTime": "", "hs": 0, "imageId": "", "isSel": -1, "name": "Sumeet Gosain", "orderId": "", "playOrderId": "2", "playerId": "4776", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Zohair Iqbal", "orderId": "", "playOrderId": "2", "playerId": "4778", "selBy": 0, "teamName": "FUJ"}], "teamABan": [{"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Zahid Ali", "orderId": "", "playOrderId": "4", "playerId": "4777", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "8/6952.png", "isSel": -1, "name": "Adeeb Usmani", "orderId": "", "playOrderId": "3", "playerId": "1550", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Hardik Pai", "orderId": "", "playOrderId": "2", "playerId": "1523", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Taimoor Ali", "orderId": "", "playOrderId": "4", "playerId": "1499", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Shazaib Khan", "orderId": "", "playOrderId": "4", "playerId": "1594", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Simranjeet Singh Kang", "orderId": "", "playOrderId": "4", "playerId": "4928", "selBy": 0, "teamName": "FUJ"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "2/5570.png", "isSel": -1, "name": "CP Rizwan", "orderId": "", "playOrderId": "2", "playerId": "3801", "selBy": 0, "teamName": "FUJ"}], "teamB11": [{"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Ali Abid", "orderId": "", "playOrderId": "1", "playerId": "1479", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "20/8532.png", "isSel": -1, "name": "Alishan Sharafu", "orderId": "", "playOrderId": "1", "playerId": "834", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Ghulam Murtaza", "orderId": "", "playOrderId": "1", "playerId": "4780", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Haider Ali", "orderId": "", "playOrderId": "1", "playerId": "4786", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Ibrar Shah", "orderId": "", "playOrderId": "1", "playerId": "1482", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Jonathan Figy", "orderId": "", "playOrderId": "1", "playerId": "4781", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Prithvi Madhu", "orderId": "", "playOrderId": "1", "playerId": "4783", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "31/703.png", "isSel": -1, "name": "Rohan Mustafa", "orderId": "", "playOrderId": "1", "playerId": "1484", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Danny Pawson", "orderId": "", "playOrderId": "2", "playerId": "4782", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "19/2483.png", "isSel": -1, "name": "Mohammad Nadeem", "orderId": "", "playOrderId": "2", "playerId": "849", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Osama Shah", "orderId": "", "playOrderId": "2", "playerId": "1480", "selBy": 0, "teamName": "TAD"}], "teamBBan": [{"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Mohammad Qasim", "orderId": "", "playOrderId": "4", "playerId": "1592", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Hamza Rehman", "orderId": "", "playOrderId": "2", "playerId": "4784", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Shehan Dilshan", "orderId": "", "playOrderId": "3", "playerId": "4785", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Muhammad Uzair Khan", "orderId": "", "playOrderId": "4", "playerId": "1488", "selBy": 0, "teamName": "TAD"}, {"avg": "0", "endTime": "", "hs": "0", "imageId": "", "isSel": -1, "name": "Zia Mukhtar", "orderId": "", "playOrderId": "4", "playerId": "1489", "selBy": 0, "teamName": "TAD"}, {"avg": 0, "endTime": "", "hs": 0, "imageId": "", "isSel": -1, "name": "Arran Fernandez", "orderId": "", "playOrderId": "4", "playerId": "4977", "selBy": 0, "teamName": "TAD"}]}
+    //     selectionTime = result.selStartTm;
+    //                 setTeamA(result.teamA11);
+    //                 setTeamB(result.teamB11);
+    //                 setTeamABench(result.teamABan);
+    //                 setTeamBBench(result.teamBBan);
+    //                 setopponentName(result.opnName);
+    //                 setopponentPic(result.opnImg);
+    //                 setMyDefaultPlayers(result.myPlayers);
+    //                 tossWinnerLastPic = result.oponLPlayer.playerId;
+    //                 if((result.myPlayers).length > 0){
+    //                     preDefinedPlayers = ((result.myPlayers)[0]);
+    //                 }
+    //                 filterTheSelectedData(result.teamA11,result.teamB11,result.teamABan,result.teamBBan);
 
-    }
-
-
+    // }
 
 
-    const callPlayer11Data_APIcall = () =>{
+
+
+    const callPlayer11Data = async() =>{
+        showProgress();
+        userInfo = JSON.parse(await AsyncStorage.getItem("player6-userdata"));
+        userPF = JSON.parse(await AsyncStorage.getItem("player6-profile"));
       const myPromise = new Promise((resolve, reject)=>{
           const sysTime = getCurrentTime();
           Services.getInstance().getPlayersData(userInfo.userId, gameDetails.gameId, userInfo.accesToken, sysTime).then((result)=>{
-              console.log(`------------------------->    Players List from user ${userInfo.userId} <-------------------------------------`);
-              console.log(result);
+            //  console.log(`------------------------->    Players List from user ${userInfo.userId} <-------------------------------------`);
+              console.log('1stttttttttttt api       trigs',result);
               preDefinedPlayers = [];
               if(result.status == 200){
                   selectionTime = result.selStartTm;
@@ -186,6 +189,7 @@ const BothTeamOpponentSelection = ({ navigation, showProgress, hideProgress }) =
               }
           })
       });
+      hideProgress()
       return myPromise;
             
   }
@@ -281,32 +285,33 @@ const BothTeamOpponentSelection = ({ navigation, showProgress, hideProgress }) =
         });
        // console.log(`Team A count from user ${userInfo.userId}------>`, teamACount)
         //console.log(`Team B count from user ${userInfo.userId} ------>`, teamACount)
-        if (teamACount == 6) {
-            if(lateDelayClear){
-                clearTimeout(lateDelayClear);
-            }
-            if(startTimeClear){
-                clearTimeout(startTimeClear);
-            }
-            if (socketTriggered) {
-                clearInterval(socketTriggered);
-            }
-            if(sec25int){
-                clearInterval(sec25int);
-            }
-            if(globalTimeInterval){
-                clearInterval(globalTimeInterval);
-            }
-            hideProgress();
-            setLoading(false);
-            const routes = navigation.getState()?.routes;
-            if(routes[routes.length - 1].name == 'BothTeamOpponentSelection'){
-                console.log("Moving");
-                hideProgress();
-                setLoading(false);
-                navigation.navigate('CaptainViceCaptainSelection');
-            }
-        }
+        /////////////// uncmnt below code ///////////////////////////
+        // if (teamACount == 6) {
+        //     if(lateDelayClear){
+        //         clearTimeout(lateDelayClear);
+        //     }
+        //     if(startTimeClear){
+        //         clearTimeout(startTimeClear);
+        //     }
+        //     if (socketTriggered) {
+        //         clearInterval(socketTriggered);
+        //     }
+        //     if(sec25int){
+        //         clearInterval(sec25int);
+        //     }
+        //     if(globalTimeInterval){
+        //         clearInterval(globalTimeInterval);
+        //     }
+        //     hideProgress();
+        //     setLoading(false);
+        //     const routes = navigation.getState()?.routes;
+        //     if(routes[routes.length - 1].name == 'BothTeamOpponentSelection'){
+        //         console.log("Moving");
+        //         hideProgress();
+        //         setLoading(false);
+        //         navigation.navigate('CaptainViceCaptainSelection');
+        //     }
+        // }
     }
 
 
@@ -345,9 +350,9 @@ const BothTeamOpponentSelection = ({ navigation, showProgress, hideProgress }) =
                     playerId: item.playerId,
                     utcCTime : sysTime2
                 }
-                console.log(obj);
+                console.log('2nd----api payload---',obj);
                 Services.getInstance().saveFinalPlayers(obj, userInfo.userId, gameDetails.gameId, userInfo.accesToken).then((result)=>{
-                    console.log(result);
+                    console.log('2nd api--------success---',result);
                     plseleccted = false;
                     if(result.status == 200){
                         callPlayer11Data().then(
@@ -362,41 +367,7 @@ const BothTeamOpponentSelection = ({ navigation, showProgress, hideProgress }) =
                             }
                         );
                     }
-                    else if(result.status == 203){
-                        console.log(`------------------> duplicate Player submission from user : ${userInfo.userId} <-------------------`);
-                        callPlayer11Data().then(
-                            function(){
-                                hideProgress();
-                                setLoading(true);
-                                selected = false;
-                                socketTriggered = setInterval(offlineSocketVerify, 31000);
-                            }
-                        ).catch(
-                            function(){
-                                console.log("duplicate Player Line handleclick function");
-                            }
-                        );
-                    }
-                    else if(result.status == 202){
-                        hideProgress();
-                        setLoading(false);
-                        if(lateDelayClear){
-                            clearTimeout(lateDelayClear);
-                        }
-                        if(startTimeClear){
-                            clearTimeout(startTimeClear);
-                        }
-                        if (socketTriggered) {
-                            clearInterval(socketTriggered);
-                        }
-                        if(sec25int){
-                            clearInterval(sec25int);
-                        }
-                        if(globalTimeInterval){
-                            clearInterval(globalTimeInterval);
-                        }
-                        navigation.navigate("InternetChecker");
-                    }
+
                     else{
                         console.log("------------------> Error in saving the final Player <-------------------")
                         plseleccted = false;
@@ -709,4 +680,3 @@ const BothTeamOpponentSelection = ({ navigation, showProgress, hideProgress }) =
 };
 
 export default WithProgress(inject('UserStore')(observer(BothTeamOpponentSelection)));
-
