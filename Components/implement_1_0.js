@@ -88,3 +88,83 @@ const styles = StyleSheet.create({
 });
 
 export default PlayerSelectionScreen;
+
+
+
+////////////////////////////// gpt code below ////////////////////////////////////////////////
+
+
+
+import React, { useEffect, useState, useCallback } from 'react';
+import { View, Text } from 'react-native';
+import { WebSocket } from 'react-native-websocket'; // Use a compatible WebSocket package
+
+const PlayerSelectionScreen = () => {
+    const [myFinal, setMyFinal] = useState([]);
+    const [opFinal, setOpFinal] = useState([]);
+    const wsUrl = 'wss://your-websocket-url'; // Replace with your WebSocket URL
+
+    useEffect(() => {
+        // Initialize WebSocket
+        const ws = new WebSocket(wsUrl);
+
+        ws.onopen = () => {
+            console.log('WebSocket connected');
+        };
+
+        ws.onmessage = (message) => {
+            try {
+                const { event, data } = JSON.parse(message.data);
+
+                if (data?.myFinal && data?.opFinal) {
+                    updateLists(data.myFinal, data.opFinal);
+                }
+            } catch (error) {
+                console.error('Error parsing WebSocket message:', error);
+            }
+        };
+
+        ws.onerror = (error) => {
+            console.error('WebSocket error:', error);
+        };
+
+        ws.onclose = () => {
+            console.log('WebSocket disconnected');
+        };
+
+        // Cleanup on unmount
+        return () => {
+            ws.close();
+        };
+    }, []);
+
+    const updateLists = useCallback((newMyFinal, newOpFinal) => {
+        setMyFinal((prev) => [...prev.slice(0, 5), ...newMyFinal]); // Ensure max of 6 items
+        setOpFinal((prev) => [...prev.slice(0, 5), ...newOpFinal]); // Ensure max of 6 items
+    }, []);
+
+    return (
+        <View style={{ padding: 20 }}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Player Selection</Text>
+            <View>
+                <Text style={{ fontSize: 16, marginTop: 10 }}>My Final Players:</Text>
+                {myFinal.map((player, index) => (
+                    <Text key={player.playerId || index}>
+                        {index + 1}. Player ID: {player.playerId}, Order: {player.order}
+                    </Text>
+                ))}
+            </View>
+            <View>
+                <Text style={{ fontSize: 16, marginTop: 10 }}>Opponent Final Players:</Text>
+                {opFinal.map((player, index) => (
+                    <Text key={player.playerId || index}>
+                        {index + 1}. Player ID: {player.playerId}, Order: {player.order}
+                    </Text>
+                ))}
+            </View>
+        </View>
+    );
+};
+
+export default PlayerSelectionScreen;
+
