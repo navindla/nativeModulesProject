@@ -2,6 +2,7 @@
 // disable btns dynamic frm state
 //wss soc integrated logs all and sets myFinal opFinal
 // added usef Info in state
+// added new renderPickPlayerCheckBox acc2 setmyFinal liust etc 
 
 
 
@@ -581,59 +582,110 @@ const BothTeamOpponentSelection = ({ navigation, showProgress, hideProgress }) =
         )
     }
 
-    const renderPickPlayerCheckBox = () => {
-        return (
-            <View style={styles.ptkmain}>
-                <View style={[styles.pntlist, styles.ticklist, styles.btmlist]}>
-                    {[1, 2, 3, 4, 5, 6].map((player, index) => (
-                        index + 1 <= teamACount ?(
-                        <View
-                            key={index}
-                            style={[styles.pntitem, index + 1 <= teamACount && isOpponent ? styles.opicked : styles.ppicked]}>
-                            {index + 1 <= teamACount ? (
-                                <Image style={styles.wtick} source={TickIcon} />
-                            ) : ""}
-                        </View>
-                        )
-                        :
-                        <View
-                            key={index}
-                            style={[styles.pntitem, index + 1 <= teamACount]}>
-                            {index + 1 <= teamACount ? (
-                                <Image style={styles.wtick} source={TickIcon} />
-                            ) : ""}
-                        </View>
 
-                    ))}
-                </View>
 
-                <View style={[styles.pntlist, styles.ticklist, styles.btmlist, styles.slist]}>
-                    {[1, 2, 3, 4, 5, 6].map((player, index) => (
+  ////////////////////////// new Final Working code below ///////////////////////
+  const renderPickPlayerCheckBox = () => {
+    return (
+        <View style={styles.ptkmain}>
+            {/* Team A Player List */}
+            <View style={[styles.pntlist, styles.ticklist, styles.btmlist]}>
+                {Array.from({ length: 6 }).map((_, index) => {
+                    // Find the player corresponding to the current index (if exists)
+                    const player = myFinal[index];
+                    const isPlayerSelected = player ? player.userId === userInfo?.userId : false;
 
-                        index + 1 <= teamBCount ? (
-                        <View
-                            key={index}
-                            style={[styles.pntitem, index + 1 <= teamBCount && isOpponent ? styles.ppicked :  styles.opicked]}
-                        >
-                         {index + 1 <= teamBCount ? (
+                    return (
+                        <View key= {index}
+                        //{player ? player.userId : index}
+                         style={[styles.pntitem, styles.ppicked]}>
+                            {isPlayerSelected ? (
                                 <Image style={styles.wtick} source={TickIcon} />
-                         ) : ""}
+                            ) : null}
                         </View>
-                        )
-                        :
-                        <View
-                            key={index}
-                            style={[styles.pntitem, index + 1 <= teamBCount ]}
-                        >
-                         {index + 1 <= teamBCount ? (
-                                <Image style={styles.wtick} source={TickIcon} />
-                         ) : ""}
-                        </View>
-                    ))}
-                </View>
+                    );
+                })}
             </View>
-        );
-    };
+
+            {/* Team B Player List */}
+            <View style={[styles.pntlist, styles.ticklist, styles.btmlist, styles.slist]}>
+                
+                {Array.from({ length: 6 }).map((_, index) => {
+                    // Find the opponent player corresponding to the current index (if exists)
+                    const player = opFinal[index];
+                    const isPlayerSelected_Opp = player ? player.userId !== userInfo?.userId : false;
+
+                    return (
+                        <View
+                         key= {index}
+                         //{player ? player.userId : index}
+                          style={[styles.pntitem, styles.opicked]}>
+                            {isPlayerSelected_Opp ? (
+                                <Image style={styles.wtick} source={TickIcon} />
+                            ) : null}
+                        </View>
+                    );
+                })}
+            </View>
+        </View>
+    );
+};
+
+
+//////////// real code below //////////////////
+    // const renderPickPlayerCheckBox = () => {
+    //     return (
+    //         <View style={styles.ptkmain}>
+    //             <View style={[styles.pntlist, styles.ticklist, styles.btmlist]}>
+    //                 {[1, 2, 3, 4, 5, 6].map((player, index) => (
+    //                     index + 1 <= teamACount ?(
+    //                     <View
+    //                         key={index}
+    //                         style={[styles.pntitem, index + 1 <= teamACount && isOpponent ? styles.opicked : styles.ppicked]}>
+    //                         {index + 1 <= teamACount ? (
+    //                             <Image style={styles.wtick} source={TickIcon} />
+    //                         ) : ""}
+    //                     </View>
+    //                     )
+    //                     :
+    //                     <View
+    //                         key={index}
+    //                         style={[styles.pntitem, index + 1 <= teamACount]}>
+    //                         {index + 1 <= teamACount ? (
+    //                             <Image style={styles.wtick} source={TickIcon} />
+    //                         ) : ""}
+    //                     </View>
+
+    //                 ))}
+    //             </View>
+
+    //             <View style={[styles.pntlist, styles.ticklist, styles.btmlist, styles.slist]}>
+    //                 {[1, 2, 3, 4, 5, 6].map((player, index) => (
+
+    //                     index + 1 <= teamBCount ? (
+    //                     <View
+    //                         key={index}
+    //                         style={[styles.pntitem, index + 1 <= teamBCount && isOpponent ? styles.ppicked :  styles.opicked]}
+    //                     >
+    //                      {index + 1 <= teamBCount ? (
+    //                             <Image style={styles.wtick} source={TickIcon} />
+    //                      ) : ""}
+    //                     </View>
+    //                     )
+    //                     :
+    //                     <View
+    //                         key={index}
+    //                         style={[styles.pntitem, index + 1 <= teamBCount ]}
+    //                     >
+    //                      {index + 1 <= teamBCount ? (
+    //                             <Image style={styles.wtick} source={TickIcon} />
+    //                      ) : ""}
+    //                     </View>
+    //                 ))}
+    //             </View>
+    //         </View>
+    //     );
+    // };
 
     // const renderTeamAItem = ({ item, index }) => (
     //         <View style={[styles.tmplyrlft,
