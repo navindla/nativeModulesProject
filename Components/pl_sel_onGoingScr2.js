@@ -1,6 +1,7 @@
 /// includes dummy data also api funcs
 // disable btns dynamic frm state
 //wss soc integrated logs all and sets myFinal opFinal
+// added usef Info in state
 
 
 
@@ -24,10 +25,12 @@ import ReactMoE,{
     MoEProperties,
   } from "react-native-moengage";
 
-let gameDetails, userInfo, myPic, userPF, currentSystemTime, teamACount=1, teamBCount=0, selected = false, plseleccted = false,socketTriggered, twentyFiveSeconds, thirtySeconds,globalTimeInterval,sec25int, playerIdsData=[], sec25TimeChange, preDefinedPlayers = [], nextTime, nextEndTime,serveCurTime, myStatus, startTimeClear,tossWinnerLastPic = {},lateDelayClear,netSpeedInterval, gb;
+let gameDetails,
+    //userInfo,
+    myPic, userPF, currentSystemTime, teamACount=1, teamBCount=0, selected = false, plseleccted = false,socketTriggered, twentyFiveSeconds, thirtySeconds,globalTimeInterval,sec25int, playerIdsData=[], sec25TimeChange, preDefinedPlayers = [], nextTime, nextEndTime,serveCurTime, myStatus, startTimeClear,tossWinnerLastPic = {},lateDelayClear,netSpeedInterval, gb;
 
 const BothTeamOpponentSelection = ({ navigation, showProgress, hideProgress }) => {
-   // const [userInfo, setUserInfo] = useState(null);
+    const [userInfo, setUserInfo] = useState(null);
 
     if(UserStore){
         const profile = UserStore.getuserPF();
@@ -86,29 +89,45 @@ const BothTeamOpponentSelection = ({ navigation, showProgress, hideProgress }) =
         return currentSystemTime;
     }
 
-    useEffect(() => {
-        const unsubscribe = navigation?.addListener('focus', () => {
-            setTeamA([{}]);
-            setTeamB([{}]);
-            setTeamABench([]);
-            setTeamBBench([]);
-            playerIdsData = [];
-            gameDetails = UserStore.selectedGameData;
-            getData();
-            AsyncStorage.setItem("p6data", "false");
-            AsyncStorage.setItem("pl6-socket", "false");
-          //  callSocket();
-            callPlayer11Data();
-          //  process1(); check-out te details
-        })
+    
+        useEffect(() => {
+        const unsubscribe = navigation?.addListener('focus', async () => {
+            try {
+                // Resetting team and player data
+                setTeamA([{}]);
+                setTeamB([{}]);
+                setTeamABench([]);
+                setTeamBBench([]);
+                playerIdsData = [];
+                gameDetails = UserStore.selectedGameData;
+    
+                // Fetch and parse user data from AsyncStorage
+                const storedUserData = await AsyncStorage.getItem("player6-userdata");
+                if (storedUserData) {
+                    const parsedData = JSON.parse(storedUserData);
+                    setUserInfo(parsedData);
+                    console.log('User Data:', parsedData); // Replace with your handling logic
+                }
+    
+                // Additional calls and resets
+                getData();
+                AsyncStorage.setItem("p6data", "false");
+                AsyncStorage.setItem("pl6-socket", "false");
+                // callSocket();
+                callPlayer11Data();
+            } catch (error) {
+                console.error('Error retrieving user data:', error);
+            }
+        });
+    
         return () => {
+            // Cleanup logic
             hideProgress();
             setLoading(false);
-           // newSocket.removeAllListeners();
+            // newSocket.removeAllListeners();
             newSocket.close();
             unsubscribe();
-
-        }
+        };
     }, []);
 
 
