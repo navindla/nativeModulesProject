@@ -1,4 +1,4 @@
-// loads with imgs, auto play, perfct dot indicarion
+// loads with imgs, auto play, perfct dot indicarion, fixed sizes imgs
 
 
 import React, { useState } from 'react';
@@ -6,12 +6,10 @@ import { Dimensions, Text, View, StyleSheet, Image } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 
 const data = [
-  'https://media.geeksforgeeks.org/wp-content/uploads/20240306153044/Unity-Books-For-Game-Development.webp',
-  'https://media.geeksforgeeks.org/wp-content/uploads/20240306152952/What-is-Vizard-AI-and-How-to-Use-it-(1).webp',
-  'https://media.geeksforgeeks.org/wp-content/uploads/20240306150928/community-marketplace.jpg',
-  'https://picsum.photos/1440/2842?random=1',
-  'https://picsum.photos/1440/2842?random=2',
-  'https://picsum.photos/1440/2842?random=3'
+  'https://assets.ajio.com/cms/AJIO/WEB/d-1.0-UHP-14122024-MainBanners-Z1-P2-montecarlo-min30.jpg',
+  'https://assets.ajio.com/cms/AJIO/WEB/d-1.0-UHP-14122024-MainBanners-Z1-P3-m&s-gap-min50.jpg',
+  'https://assets.ajio.com/cms/AJIO/WEB/D-1.0-UHP-13122024-mainbanner-z1-p-trends-50to70.jpg',
+
 ];
 
 const App = () => {
@@ -22,12 +20,12 @@ const App = () => {
     <View style={styles.container} id="carousel-component" dataSet={{ kind: "basic-layouts", name: "parallax" }}>
       <Carousel
         loop
-        width={width}
+        width={490}
         height={width / 2}
         autoPlay={true}
         data={data}
         mode= "parallax"
-        scrollAnimationDuration={1000}
+        scrollAnimationDuration={2000}
         onSnapToItem={(index) => {
           setCurrentIndex(index);
           console.log('Current index:', index);
@@ -72,8 +70,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   image: {
-    width: '100%',
-    height: '100%',
+    width: '110%',
+    height: '110%',
   },
   pagination: {
     flexDirection: 'row',
