@@ -1,0 +1,240 @@
+
+///////////// opp not added ////////////
+
+  const renderTeamAItem = ({ item, index }) => {
+    // Function to determine the border color based on conditions
+    const getBorderColor = (item, global_6players, userInfo) => {
+      const matchingPlayer = global_6players.find(
+        (player) => player.playerId === item.playerId
+      );
+      if (matchingPlayer) {
+        return matchingPlayer.userId === userInfo?.userId
+          ? styles.borderTopBlueWidth
+          : styles.borderTopOrangeWidth;
+      }
+      return styles.defaultBorderStyle; // Optional fallback style
+    };
+
+    const getTickBgColor = (item, global_6players, userInfo) => {
+      const matchingPlayer = global_6players.find(
+        (player) => player.playerId === item.playerId
+      );
+      if (matchingPlayer) {
+        return matchingPlayer.userId === userInfo?.userId
+          ? "#246afe"
+          : "orange";
+      }
+      return styles.defaultBorderStyle; // Optional fallback style
+    };
+
+    // Track selection events using analytics tools
+    const trackSelectionEvent = () => {
+      const functionsInstance = Functions.getInstance();
+      functionsInstance.fireAdjustEvent("pogpop");
+      functionsInstance.fireFirebaseEvent("Players11SelectionPlusButton");
+
+      const properties = new MoEProperties().addAttribute("clicked", true);
+      ReactMoE.trackEvent("LIVE Player Selection", properties);
+    };
+
+    // Determine if the player is already selected or disabled
+    const isPlayerDisabled = global_6players.some(
+      (player) => player.playerId === item.playerId
+    );
+
+    return (
+      <TouchableOpacity
+        disabled={isPlayerDisabled}
+        onPress={() => {
+          trackSelectionEvent();
+          handlePlayerClick(index, 1, item);
+        }}
+        style={[
+          styles.tmplyrlft,
+          getBorderColor(item, global_6players, userInfo),
+        ]}
+      >
+        {/* Player Left Section */}
+        <View style={styles.plyrlft}>
+          <View style={[styles.plyrprfl, styles.plyrlftprfl]}>
+            <Image
+              style={styles.teamsImageStyle}
+              source={
+                item.imageId
+                  ? {
+                      uri: `https://cdn.sportmonks.com/images/cricket/players/${item.imageId}`,
+                    }
+                  : require("../../../assets/images/dummy.png")
+              }
+              onError={() =>
+                console.error(`Failed to load image for ${item.name}`)
+              }
+            />
+          </View>
+          <View style={{ marginTop: 5 }}>
+            <Text style={[styles.ortxt, styles.plyrtm, styles.plyrsd]}>
+              {item.teamName}
+            </Text>
+          </View>
+        </View>
+
+        {/* Dotted Line Section */}
+        <View style={[styles.dotp, styles.dotp2]}>
+          <Image style={styles.dotimg} source={BorderLine2} />
+        </View>
+
+        {/* Player Info Section */}
+        <View>
+          <Text
+            style={[
+              styles.teamnm,
+              styles.wnrtxt,
+              styles.tmname,
+              styles.plyrname,
+            ]}
+          >
+            {item.name}
+          </Text>
+          <Text style={[styles.teamnm, styles.plyrruns]}>Avg: {item.avg}</Text>
+          <Text style={[styles.ortxt, styles.plyrruns]}>HS: {item.hs}</Text>
+        </View>
+
+        {/* Player Action Button */}
+        <View
+          style={[
+            styles.adplyr,
+            {
+              backgroundColor: isPlayerDisabled
+                ? getTickBgColor(item, global_6players, userInfo)
+                : "gray",
+            },
+          ]}
+        >
+          {isPlayerDisabled ? (
+            <Image style={{ width: 8, height: 8 }} source={TickIcon} />
+          ) : (
+            <Image style={styles.adplusimg} source={PlusIcon} />
+          )}
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
+  const renderTeamBItem = ({ item, index }) => {
+    // Function to determine the border color based on conditions
+    const getBorderColor = (item, global_6players, userInfo) => {
+      const matchingPlayer = global_6players.find(
+        (player) => player.playerId === item.playerId
+      );
+      if (matchingPlayer) {
+        return matchingPlayer.userId === userInfo?.userId
+          ? styles.borderTopBlueWidth
+          : styles.borderTopOrangeWidth;
+      }
+      return styles.defaultBorderStyle; // Optional fallback style
+    };
+
+    const getTickBgColor = (item, global_6players, userInfo) => {
+      const matchingPlayer = global_6players.find(
+        (player) => player.playerId === item.playerId
+      );
+      if (matchingPlayer) {
+        return matchingPlayer.userId === userInfo?.userId
+          ? "#246afe"
+          : "orange";
+      }
+      return styles.defaultBorderStyle; // Optional fallback style
+    };
+
+    // Track selection events using analytics tools
+    const trackSelectionEvent = () => {
+      const functionsInstance = Functions.getInstance();
+      functionsInstance.fireAdjustEvent("pogpop");
+      functionsInstance.fireFirebaseEvent("Players11SelectionPlusButton");
+
+      const properties = new MoEProperties().addAttribute("clicked", true);
+      ReactMoE.trackEvent("LIVE Player Selection", properties);
+    };
+
+    // Determine if the player is already selected or disabled
+    const isPlayerDisabled = global_6players.some(
+      (player) => player.playerId === item.playerId
+    );
+
+    return (
+      <TouchableOpacity
+        disabled={isPlayerDisabled}
+        onPress={() => {
+          trackSelectionEvent();
+          handlePlayerClick(index, 2, item);
+        }}
+        style={[
+          styles.tmplyrlft,
+          getBorderColor(item, global_6players, userInfo),
+        ]}
+      >
+        {/* Player Left Section */}
+        <View style={styles.plyrlft}>
+          <View style={[styles.plyrprfl, styles.plyrlftprfl]}>
+            <Image
+              style={styles.teamsImageStyle}
+              source={
+                item.imageId
+                  ? {
+                      uri: `https://cdn.sportmonks.com/images/cricket/players/${item.imageId}`,
+                    }
+                  : require("../../../assets/images/dummy.png")
+              }
+              onError={() =>
+                console.error(`Failed to load image for ${item.name}`)
+              }
+            />
+          </View>
+          <View style={{ marginTop: 5 }}>
+            <Text style={[styles.ortxt, styles.plyrtm, styles.plyrsd]}>
+              {item.teamName}
+            </Text>
+          </View>
+        </View>
+
+        {/* Dotted Line Section */}
+        <View style={[styles.dotp, styles.dotp2]}>
+          <Image style={styles.dotimg} source={BorderLine2} />
+        </View>
+
+        {/* Player Info Section */}
+        <View>
+          <Text
+            style={[
+              styles.teamnm,
+              styles.wnrtxt,
+              styles.tmname,
+              styles.plyrname,
+            ]}
+          >
+            {item.name}
+          </Text>
+          <Text style={[styles.teamnm, styles.plyrruns]}>Avg: {item.avg}</Text>
+          <Text style={[styles.ortxt, styles.plyrruns]}>HS: {item.hs}</Text>
+        </View>
+
+        {/* Player Action Button */}
+        <View
+          style={[
+            styles.adplyr,
+            {
+              backgroundColor: isPlayerDisabled
+                ? getTickBgColor(item, global_6players, userInfo)
+                : "gray",
+            },
+          ]}
+        >
+          {isPlayerDisabled ? (
+            <Image style={{ width: 8, height: 8 }} source={TickIcon} />
+          ) : (
+            <Image style={styles.adplusimg} source={PlusIcon} />
+          )}
+        </View>
+      </TouchableOpacity>
+    );
+  };
