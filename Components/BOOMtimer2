@@ -1,0 +1,112 @@
+
+////////////////////////////working code/////////////////////////////////////////////////////
+// most perfect utc timer bomb
+
+import React, { useState } from 'react';
+import { View, Text, Button, StyleSheet } from 'react-native';
+
+const TimerScreen = () => {
+  const [currentTime, setCurrentTime] = useState('');
+  const [isWatching, setIsWatching] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const endTime = "2024-12-18 12:52:00"; // Set your end time here (UTC)
+
+
+
+
+  function logCurrentUTCTime() {
+    const now = new Date();
+    
+    // Format UTC time as "YYYY-MM-DD HH:MM:SS"
+    const formattedUTCTime = now.toISOString()
+      .replace('T', ' ')     // Replace 'T' with space
+      .slice(0, 19);         // Trim to remove milliseconds and timezone
+  
+    console.log(formattedUTCTime);
+  }
+  
+
+    // Function to calculate the time difference
+    const getTimeDifference = (end, now) => {
+      const endDate = new Date(end).getTime();
+      const nowDate = new Date(now).getTime();
+      const diffInMs = endDate - nowDate;
+  
+      const diffInSec = Math.floor(diffInMs / 1000);
+      const seconds = diffInSec % 60;
+      const minutes = Math.floor(diffInSec / 60) % 60;
+      const hours = Math.floor(diffInSec / 3600);
+  
+      return { hours, minutes, seconds, diffInMs };
+    };
+  
+
+  // Function to start the timer
+  const startWatching = () => {
+    setIsWatching(true);
+    setMessage('');
+    const interval = setInterval(() => {
+      const now = new Date().toISOString().slice(0, 19).replace('T', ' '); // Current time in UTC format
+      setCurrentTime(now);
+
+        // Calculate the difference
+        const { hours, minutes, seconds, diffInMs } = getTimeDifference(endTime, now);
+
+        // Log the remaining time in the console
+        console.log(`Remaining Time: ${hours}h ${minutes}m ${seconds}s (${diffInMs}ms)`);
+
+      if (now === endTime) {
+        clearInterval(interval); // Stop the interval vimp*
+        setIsWatching(false);
+        setMessage('Time-Out!');
+      }
+    }, 1000);
+
+    // Clear the interval when component unmounts or when watching stops
+    return () => clearInterval(interval);
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.currentTimeText}>Current Time: {currentTime}</Text>
+      <Button title="c-time" onPress={()=>logCurrentUTCTime()} />
+      <Text style={styles.endTimeText}>End Time: {endTime}</Text>
+      <View style={styles.buttonContainer}>
+        {!isWatching && (
+          <Button title="Start" onPress={startWatching} />
+        )}
+      </View>
+      {message !== '' && <Text style={styles.message}>{message}</Text>}
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5',
+  },
+  currentTimeText: {
+    fontSize: 18,
+    marginBottom: 10,
+  },
+  endTimeText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  buttonContainer: {
+    marginBottom: 20,
+  },
+  message: {
+    fontSize: 22,
+    color: 'red',
+    fontWeight: 'bold',
+    marginTop: 20,
+  },
+});
+
+export default TimerScreen;
