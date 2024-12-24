@@ -1,4 +1,6 @@
 // new lib used for drag by venky wokring fine tested
+// mods item.country name made perfet
+
 
 import React, { useEffect, useState, useRef } from "react";
 import {
@@ -584,7 +586,7 @@ const DragNDrop = ({ navigation, showProgress, hideProgress }) => {
               {item.name}
             </Text>
 
-            <Text
+            {/* <Text
               numberOfLines={1}
               style={[
                 styles.ortxt,
@@ -599,7 +601,23 @@ const DragNDrop = ({ navigation, showProgress, hideProgress }) => {
               ]}
             >
               {item.country}
-            </Text>
+            </Text> */}
+                      {item.countryType == 1 ? (
+                        <Text style={[styles.ortxt, styles.plyrtm]}>
+                          {item.country}
+                        </Text>
+                      ) : (
+                        <Text
+                          style={[
+                            styles.ortxt,
+                            styles.plyrtm,
+                            { color: "#2d2d2d", backgroundColor: "#fff" },
+                            { fontSize: 7.7 },
+                          ]}
+                        >
+                          {item.country}
+                        </Text>
+                      )}
           </Pressable>
 
           <Pressable
