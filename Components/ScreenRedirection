@@ -1,0 +1,112 @@
+// just a main btn function in myGames scr
+
+
+
+const screenRedirection = async (data) => {
+ 
+  showProgress();
+  console.log("data---------");
+  const functionsInstance = Functions.getInstance();
+  functionsInstance.fireAdjustEvent("rzz1nb");
+  functionsInstance.fireFirebaseEvent("GameRoomOpenContestButton");
+
+  let properties = new MoEProperties();
+  properties.addAttribute("Gameroom's Contest tier blue button", true);
+  ReactMoE.trackEvent("My Games", properties);
+
+  UserStore.setopponentSocketData(data);
+
+  const selectedMatchData = {
+    ...data,
+    team1Logo: data.contOneImg,
+    team1Name: data.contOneSnam,
+    team2Logo: data.contTwoImg,
+    team2Name: data.contTwoSnam,
+    title: data.banTitle,
+  };
+
+  UserStore.setselectedMatch(selectedMatchData);
+  UserStore.setselectedGameData(data);
+  UserStore.setselectedContest(data);
+
+  await AsyncStorage.multiSet([
+    ["selected-game-match", JSON.stringify(selectedMatchData)],
+    ["selected-game-contest", JSON.stringify(data)],
+  ]);
+
+  hideProgress();  
+// console.log(playerSelectionStatus, "playerSelectionStatus");
+// return;  //////////// DEBUG THE MYGAMES BUTTON
+ //Functions.getInstance().Toast("error", playerSelectionStatus); // stops navigation if this is uncomneted
+  switch (data.status) {
+    case "1":
+      try {
+        const result = await Services.getInstance().previousContests(userInfo.userId, data.matchId, userInfo.accesToken);
+        if (result.status === 200) {
+          await AsyncStorage.setItem("prev-contests", JSON.stringify(result.msg));
+          return navigation.navigate("PlayersInteraction", { destination: "FindOpponent" });
+        }
+      } catch {
+        return functionsInstance.Toast("error", "Please try again later");
+      }
+      break;
+
+    case "2":
+    case "3":
+      properties = new MoEProperties();
+      properties.addAttribute(
+        data.userOne === userInfo.userId ? "Toss chooser screen" : "Toss chooser screen (Opponent)",
+        true
+      );
+      ReactMoE.trackEvent("My Games", properties);
+
+      return navigation.navigate("PlayersInteraction", {
+        destination: data.userOne === userInfo.userId ? "PickTeamForToss" : "OpponentChooseToss",
+      });
+
+    case "4":
+      if (!data.userTwo || data.userTwo === "0") {
+        return functionsInstance.Toast(
+          "error",
+          "Oops! You haven't paired with anyone. Your amount will be refunded to your wallet."
+        );
+      }
+
+      if (!data.tossWinner || data.tossWinner === "0") {
+        return navigation.navigate("PlayersInteraction", {
+          destination: data.userOne === userInfo.userId ? "TossLoss" : "TossWon",
+        });
+      }
+
+      if (data.finalPlayers === "0") {
+        return navigation.navigate("PlayersInteraction", {
+          destination: data.tossWinner === userInfo.userId ? "TossWon" : "TossLoss",
+        });
+      }
+
+      if (data.playerSelectionStatus === "PENDING") {
+        return navigation.navigate("PlayersInteraction", {
+          destination: data.tossWinner === userInfo.userId ? "TossWon" : "TossLoss",
+        });
+      }
+
+      if (data.playerSelectionStatus === "COMPLETED") {
+        return navigation.navigate(
+          data.isCapSel === "0" ? "CaptainViceCaptainSelection" : "PlayersInteraction",
+          data.isCapSel === "0"
+            ? { newGameId: UserStore.selectedGameData.gameId }
+            : { destination: "RunningMatch" }
+        );
+      }
+
+      if (data.playerSelectionStatus === "INPROGRESS") {
+        return navigation.navigate("PlayersInteraction", { destination: "BothTeamOpponentSelection" });
+      }
+      break;
+
+    case "5":
+      return functionsInstance.Toast("success", "Match has been completed...");
+  }
+
+  return functionsInstance.Toast("error", "Please try again later");
+};
