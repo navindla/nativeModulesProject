@@ -1,0 +1,54 @@
+
+
+import React, { useEffect, useState } from "react";
+import { View, Text } from "react-native";
+
+const FindOpponent = () => {
+  const [ws, setWs] = useState(null);
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    console.log("📡 Connecting to WebSocket...");
+
+    const socket = new WebSocket("wss://qaws.player6sports.com/30979/watchEvents");
+
+    socket.onopen = () => {
+      console.log("✅ WebSocket Connected");
+    };
+
+    socket.onmessage = (event) => {
+      console.log("📩 Received message:", event.data);
+      setMessages((prev) => [...prev, event.data]);
+    };
+
+    socket.onerror = (error) => {
+      console.error("❌ WebSocket Error:", error);
+    };
+
+    socket.onclose = (event) => {
+      console.warn("⚠️ WebSocket Closed:", event.code, event.reason);
+    };
+
+    setWs(socket);
+
+    return () => {
+      console.log("🔌 Closing WebSocket...");
+      socket.close();
+    };
+  }, []);
+
+  return (
+    <View style={{ flex: 1, padding: 20 }}>
+      <Text style={{ fontSize: 18, fontWeight: "bold" }}>WebSocket Data:</Text>
+      {messages.map((msg, index) => (
+        <Text key={index} style={{ marginTop: 5 }}>
+          {msg}
+        </Text>
+      ))}
+    </View>
+  );
+};
+
+export default FindOpponent;
+
+
