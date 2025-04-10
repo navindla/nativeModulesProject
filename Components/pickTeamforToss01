@@ -1,0 +1,663 @@
+//////////////////////////////
+
+/////////USER 1/////////////
+
+/////////USER 1/////////////
+// Icon bug fixed usr1
+
+import React, {useEffect, useState, useCallback} from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import {
+  Alert,
+  AppState,
+  Image,
+  Pressable,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  View,
+  Dimensions,
+  Linking,
+  BackHandler
+} from 'react-native';
+import BlinkView from 'react-native-smooth-blink-view';
+import {styles} from './crickLeagueStyles/CricketLeague.style';
+import IconUpDrft from 'react-native-vector-icons/Octicons';
+import PrvDrftDrft from 'react-native-vector-icons/MaterialCommunityIcons';
+import Functions from '../Functions';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {ScrollView} from 'react-native';
+import ImageSlider from './common/ImageSlider';
+import UserStore from '../../stores/UserStore';
+import Services from '../../../Services/Services';
+import AsyncStorage from '@react-native-community/async-storage';
+import EventSource from 'react-native-event-source';
+import MatchBanner from './MatchBanner';
+import {inject, observer} from 'mobx-react';
+import WithProgress from '../LoadingOverlay/WithProgress';
+import ReactMoE, {MoEProperties} from 'react-native-moengage';
+import { watchEvents_URL } from '../../../Services/Services';
+
+let userInfo,
+  gameDetails = {},
+  teamDetails = {},
+  selectedUserMatch = {},
+  selectedUserContest = {},
+  draftBtnStatus,
+  interval,
+  timeout,
+  myTeam = {};
+
+const PickTeamForToss = ({navigation, showProgress, hideProgress}) => {
+  const [ContestContent, setContestContent] = useState(false); // New state by Venky
+  const [tmSel, setTmSel] = useState(false);
+  let [TmDetails, setTmDetails] = useState(null); /////// new code 7-04
+  const [storedTeamDetails, setStoredTeamDetails] = useState(null); /////add
+  const [currentTime, setCurrentTime] = useState();
+  const [teamSelected, setteamSelected] = useState(false); // DraftButton
+  const [opEvent, setopEvent] = useState(false);
+  let [tossDelayed, setTossDelayed] = useState(false);
+  let newSocket;
+
+  const screenWidth = Dimensions.get('window').width;
+  // console.log('storedTeamDetails------------',storedTeamDetails);
+
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener('focus', () => {
+  //     gameDetails = UserStore.selectedGameData;
+  //     teamDetails = UserStore.selectedTeamDetails;
+  //     draftBtnStatus = UserStore.DraftButton;
+  //     setContestContent(UserStore.DraftButton);
+  //     selectedUserMatch = UserStore.selectedMatch;
+  //     selectedUserContest = UserStore.selectedContest;
+  //     callSocket();
+  //     getData();
+  //     setCurrentTime(Functions.getInstance().getTimer(gameDetails?.startTime));
+  //     setTmSel(true);
+  //   });
+  //   /// ///
+
+  //   return () => {
+  //     unsubscribe();
+  //   };
+  // }, [navigation, gameDetails]);
+  useFocusEffect(
+    useCallback(() => {
+      const onBackPress = () => {
+        return true; // 👈 Do nothing
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [])
+  );
+
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', async () => {
+      const gameDetails = UserStore.selectedGameData;
+      const teamDetails = UserStore.selectedTeamDetails;
+      const draftBtnStatus = UserStore.DraftButton;
+     // setStoredTeamDetails(teamDetails)
+
+      setContestContent(draftBtnStatus);
+
+      const selectedUserMatch = UserStore.selectedMatch;
+      const selectedUserContest = UserStore.selectedContest;
+
+      callSocket();
+      getData();
+    
+      setCurrentTime(Functions.getInstance().getTimer(gameDetails?.startTime));
+      setTmSel(true);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [navigation]);
+  //
+
+  ///////////////////// added async store teamDteails/////////////////////
+  useEffect(() => {
+    let myTime = getCurrentTime();
+    gameDetails = UserStore.selectedGameData;
+    teamDetails = UserStore.selectedTeamDetails;
+  //  console.log('teamDetails----L124', teamDetails);
+  //  setStoredTeamDetails(teamDetails)
+
+    selectedUserMatch = UserStore.selectedMatch;
+    selectedUserContest = UserStore.selectedContest;
+    timeout = setTimeout(() => {
+      clearTimeout(timeout);
+      if (myTime > gameDetails.tosTime) {
+        setTossDelayed(true);
+      }
+
+      interval = setInterval(() => {
+        setCurrentTime(
+          Functions.getInstance().getTimer(gameDetails?.startTime),
+        );
+        let myTime = getCurrentTime();
+
+        if (myTime > gameDetails.tosTime) {
+          setTossDelayed(true);
+        }
+
+        const delay = Functions.getInstance().contestClosedTimeDifference(
+          myTime,
+          gameDetails?.startTime,
+        );
+        if (delay <= 10 * 60) {
+          if (timeout) {
+            clearTimeout(timeout);
+          }
+          if (interval) {
+            clearInterval(interval);
+          }
+          navigation.navigate('CricketLeague');
+        }
+      }, 1000);
+    }, 1000);
+
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+      if (interval) {
+        clearInterval(interval);
+      }
+      newSocket.removeAllListeners();
+      newSocket.close();
+    };
+  }, []);
+
+
+
+  useEffect(() => {
+    if (currentTime == '00:00') {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+      if (interval) {
+        clearInterval(interval);
+      }
+    }
+  }, []);
+
+  const getCurrentTime = () => {
+    var currentDate = new Date();
+    // Get the components of the date and time
+    var year = currentDate.getUTCFullYear();
+    var month = ('0' + (currentDate.getUTCMonth() + 1)).slice(-2);
+    var day = ('0' + currentDate.getUTCDate()).slice(-2);
+    var hours = ('0' + currentDate.getUTCHours()).slice(-2);
+    var minutes = ('0' + currentDate.getUTCMinutes()).slice(-2);
+    var seconds = ('0' + currentDate.getUTCSeconds()).slice(-2);
+    var currentSystemTime =
+      year +
+      '-' +
+      month +
+      '-' +
+      day +
+      ' ' +
+      hours +
+      ':' +
+      minutes +
+      ':' +
+      seconds;
+    return currentSystemTime;
+  };
+
+
+    /////////////////////////// new ////////
+    const retrieveSelectedTmDetails = async () => {
+      try {
+        const storedData = await AsyncStorage.getItem("selectedTmDetailsAscy");
+        if (storedData !== null) {
+          const parsedData = JSON.parse(storedData);
+          console.log("-- Retrieved data: ---", parsedData);
+          setTmDetails(parsedData); // Set the retrieved data to the state
+          return parsedData; // Return the parsed data
+        } else {
+          console.log("No data stored");
+          return null; // Return null if no data is stored
+        }
+      } catch (error) {
+        console.error("Error retrieving data:", error);
+        return null; // Return null if an error occurs
+      }
+    };
+
+  const callSocket = async () => {
+    userInfo = JSON.parse(await AsyncStorage.getItem('player6-userdata')); 
+    newSocket = new EventSource(
+     watchEvents_URL(userInfo.userId)
+    ); 
+    newSocket.addEventListener('ping', event => {
+   //   console.log('Final List Socket ::::: ');
+    });
+
+    if (opEvent == false) {
+      newSocket.addEventListener('tossDec', event => {
+        let ds = JSON.parse(event.data);
+        if (ds.matchId == gameDetails.matchId) {
+          tossDeclarationEvent(event);
+        }
+      });
+    }
+
+    newSocket.addEventListener('contestClosed', event => {
+      let ds = JSON.parse(event.data);
+      if (ds.matchId == gameDetails.matchId) {
+        navigation.navigate('CricketLeague');
+      }
+    });
+
+    return () => {
+      newSocket.removeAllListeners();
+      newSocket.close();
+    };
+  };
+
+  const tossDeclarationEvent = async event => {
+    setopEvent(true);
+    const stat = await AsyncStorage.getItem('toss');
+    const toss = JSON.parse(event.data);
+    if (gameDetails.matchId == toss.matchId && stat == 'false') {
+      let user1Team, user2Team;
+      AsyncStorage.setItem('toss', 'true');
+      if (gameDetails?.userOne == userInfo.userId) {
+        user1Team = gameDetails.userOneTeam;
+      } else if (gameDetails?.userTwo == userInfo.userId) {
+        user2Team = gameDetails.userTwoTeam;
+      }
+
+      if (user2Team == '0' && gameDetails?.userTwo == userInfo.userId) {
+        user2Team = toss.winTeamId;
+        navigation.navigate('TossWon');
+      }
+
+      if (user2Team == toss.winTeamId) {
+        navigation.navigate('TossWon');
+      } else if (user1Team == toss.winTeamId) {
+        navigation.navigate('TossWon');
+      } else {
+        navigation.navigate('TossLoss');
+      }
+    }
+  };
+
+
+
+  const getData = async () => {
+    userInfo = JSON.parse(await AsyncStorage.getItem('player6-userdata'));
+    AsyncStorage.setItem('toss', 'false');
+    AsyncStorage.setItem('players', 'false');
+  //  console.log('-------324--------------',teamDetails);
+    setStoredTeamDetails(teamDetails); //add Reason: teamDetails has only contOne at if condition was failing went to else there updating as undifeined obj=teamDt
+    if (teamDetails?.userOneTeam !== '0') {
+      let obj;
+      if (teamDetails?.userOneTeam == teamDetails?.contOne) {
+        obj = {
+          contOne: teamDetails?.userOneTeam,
+          contOneSnam: teamDetails?.contOneSnam,
+          contOneImg: teamDetails?.contOneImg,
+          isSelected: true,
+        };
+      //  console.log('teamDetails-----getData3 -->', obj);
+      } else {
+        obj = {
+          contOne: teamDetails?.userTwoTeam,
+          contOneSnam: teamDetails?.contTwoSnam,
+          contOneImg: teamDetails?.contTwoImg,
+          isSelected: true,
+        };
+      //  console.log('teamDetails-----getData4 -->', obj);
+      }
+      UserStore.setselectedTeamDetails(obj);
+    //  console.log('teamDetails-----getData2 -->', obj);
+      teamDetails = obj;
+      console.log('teamDetails-----getData -->', teamDetails);
+      retrieveSelectedTmDetails(); //new code 7aprl
+      setteamSelected(true);
+      setContestContent(true);
+     
+    } else {
+      setteamSelected(false);
+    }
+
+    
+
+    Functions.getInstance().checkExpiration(
+      userInfo.userId,
+      userInfo.refToken,
+      navigation,
+    );
+    Functions.getInstance().checkInternetConnectivity();
+  };
+
+
+
+
+
+
+  const onPressTeam = async (id, name, image) => {
+    Functions.getInstance().fireAdjustEvent('yxov4d');
+    let properties = new MoEProperties();
+    properties.addAttribute('Name', name);
+    ReactMoE.trackEvent('Glimmering logo of Team', properties);
+    showProgress();
+
+    const obj = {
+      contOne: id,
+      contOneSnam: name,
+      contOneImg: image,
+      isSelected: true,
+    };
+
+  let tmID={
+      teamName: name,
+      teamImg:  image
+    }
+    
+    UserStore.setselectedTeamDetails(obj);
+    teamDetails = obj;
+    setTmDetails(tmID); //// new code 7aprl
+    AsyncStorage.setItem('selectedTmDetailsAscy', JSON.stringify(tmID)); //// new code 7aprl
+    const payload = {
+      userId: userInfo.userId,
+      gameId: gameDetails.gameId,
+      team: id,
+    };
+    Services.getInstance()
+      .selectTeam(
+        payload,
+        userInfo.userId,
+        gameDetails.gameId,
+        userInfo.accesToken,
+      )
+      .then(result => {
+        setteamSelected(true);
+        if (gameDetails.contOne == id) {
+          gameDetails.userOneTeam = id;
+          gameDetails.userTwoTeam = gameDetails.contTwo;
+        } else {
+          gameDetails.userOneTeam = id;
+          gameDetails.userTwoTeam = gameDetails.contOne;
+        }
+        hideProgress();
+      });
+  };
+
+
+
+  const renderContestContent = (image, name, id, disabled) => {
+    return (
+      <Pressable
+        disabled={disabled}
+        onPress={() => {
+          if (!ContestContent) {
+            setContestContent(true);
+            UserStore.setDraftButton(true);
+          }
+          onPressTeam(id, name, image);
+        }}
+        style={styles.team}>
+        <BlinkView
+          delayVisible={300}
+          delayInvisible={0}
+          duration={500}
+          blinking={true}>
+          <View
+            style={[styles.teamView, styles.pickTeamView, styles.blnk]}></View>
+        </BlinkView>
+
+        <View style={[styles.teamView, styles.pickTeamView]}>
+          <Image
+            style={styles.teamImage}
+            source={{
+              uri: image, // `https://cdn.sportmonks.com/images/cricket/teams/${image}`,
+            }}
+          />
+        </View>
+        <Text
+          style={[
+            styles.teamName,
+            styles.teamText,
+            styles.tctblnlk,
+            {fontSize: 10},
+          ]}>
+          {name} hello
+        </Text>
+        {disabled && (
+          <View style={styles.matchTime}>
+            <View style={[styles.pickTimer, styles.onpg]}>
+              <Text style={[styles.teamName, styles.teamTimerText]}>
+                {currentTime}
+              </Text>
+            </View>
+          </View>
+        )}
+      </Pressable>
+    );
+  };
+
+  return !tmSel ? null : (
+    <SafeAreaView style={styles.root}>
+      <StatusBar backgroundColor="#111111" />
+      <ScrollView contentContainerStyle={{flexGrow: 1}}>
+        <MatchBanner selectedUserMatch={selectedUserMatch} />
+        <View style={[styles.mainContainer, {marginTop: -6}]}>
+          {/* <MatchBanner selectedUserMatch={selectedUserMatch} /> */}
+
+          <View style={[styles.teamcontest, styles.opmn, {marginBottom: 30}]}>
+            <View style={[styles.contestMain, styles.pickTeam]}>
+              <Text
+                style={[styles.mainText, styles.selectedText, styles.pickText]}>
+                {teamSelected
+                  ? 'Your Team For The Toss Is'
+                  : 'Pick Your Team To Win The Toss'}
+                {/* ( Game Id : {gameDetails.gameId} {" , "}
+              Match Id : {gameDetails.matchId} )  */}
+              </Text>
+
+              {teamSelected ? (
+                <View style={[styles.matchCard, styles.pickMatch]}>
+                  <Pressable style={styles.team}>
+                    <View style={[styles.teamView, styles.pickTeamView]}>
+                      <Image
+                        style={styles.teamImage}
+                        source={{
+                         // uri: storedTeamDetails?.contOneImg,
+                          uri: TmDetails?.teamImg
+                        }}
+                      />
+                    </View>
+
+                    <Text
+                      style={[
+                        styles.teamName,
+                        styles.teamText,
+                        styles.tctblnlk,
+                        {fontSize: 10},
+                      ]}>
+                      {/* {storedTeamDetails?.contOneSnam} */}
+                      {TmDetails?.teamName}
+                    </Text>
+
+                    <View style={styles.matchTime}>
+                      <View style={[styles.pickTimer, styles.onpg]}>
+                        <Text style={[styles.teamName, styles.teamTimerText]}>
+                          {currentTime}
+                        </Text>
+                      </View>
+                    </View>
+                  </Pressable>
+                </View>
+              ) : (
+                <View style={[styles.matchCard, styles.pickMatch]}>
+                  {renderContestContent(
+                    gameDetails?.contOneImg,
+                    gameDetails?.contOneSnam,
+                    gameDetails?.contOne,
+                    false,
+                  )}
+                  <View style={styles.matchTime}>
+                    <View style={styles.pickTimer}>
+                      <Text style={[styles.teamName, styles.teamTimerText]}>
+                        {currentTime}
+                      </Text>
+                    </View>
+                  </View>
+                  {renderContestContent(
+                    gameDetails?.contTwoImg,
+                    gameDetails?.contTwoSnam,
+                    gameDetails?.contTwo,
+                    false,
+                  )}
+                </View>
+              )}
+
+              <Text style={[styles.teamName, styles.winnerText]}>
+                Winner of toss gets 1st pick in player selection
+              </Text>
+              {currentTime == '00:00' && (
+                <Text style={[styles.teamName, styles.winnerText]}>
+                  toss will be announced shortly.
+                </Text>
+              )}
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+                <Pressable
+                  onPress={() => {
+                    navigation.push('DraftRoute', {
+                      screen: 'DraftPreview',
+                    });
+                  }}
+                  disabled={!ContestContent} // Enable the button only when ContestContent is true
+                >
+                  <View
+                    style={[
+                      styles.chooseContest,
+                      styles.waitingRoom,
+                      styles.openGame,
+                      {opacity: ContestContent ? 1 : 0.5}, // Change opacity when disabled
+                      //  {width: screenWidth/2.4},
+                      {
+                        width: screenWidth / 2.4,
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      },
+                    ]}>
+                    <PrvDrftDrft
+                      name="magnify"
+                      color={'white'}
+                      size={19}
+                      style={{marginRight: 4, marginBottom: 2}}
+                    />
+                    <Text
+                      style={[
+                        styles.mainText,
+                        styles.playNow,
+                        styles.waitingRoomText,
+                        {color: ContestContent ? '#FFFFFF' : '#CCCCCC'}, // Change text color when disabled
+                      ]}>
+                      Preview Draft
+                    </Text>
+                  </View>
+                </Pressable>
+                <Pressable
+                  onPress={() => {
+                    Functions.getInstance().fireAdjustEvent('sg7g0q');
+                    Functions.getInstance().fireFirebaseEvent(
+                      'UpdateDraftButton',
+                    );
+                    let properties = new MoEProperties();
+                    properties.addAttribute('userId', userInfo.userId);
+                    properties.addAttribute('click_updatedraft', true);
+                    ReactMoE.trackEvent('click_updatedraft', properties);
+                    navigation.push('DraftRoute', {
+                      screen: 'TeamSelection',
+                    });
+                    // navigation.navigate("DraftRoute");   //DraftPreview
+                    // navigation.navigate('DraftRoute', {
+                    //   screen: 'DraftPreview',
+                    // });
+                  }}
+                  disabled={!ContestContent} // Enable the button only when ContestContent is true
+                >
+                  <View
+                    style={[
+                      styles.chooseContest,
+                      styles.waitingRoom,
+                      styles.openGame,
+                      {opacity: ContestContent ? 1 : 0.5}, // Change opacity when disabled
+                      {
+                        width: screenWidth / 2.4,
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      },
+                    ]}>
+                    <IconUpDrft
+                      name="arrow-switch"
+                      color={'white'}
+                      size={18}
+                      style={{marginRight: 8, marginBottom: 2}}
+                    />
+                    <Text
+                      style={[
+                        styles.mainText,
+                        styles.playNow,
+                        styles.waitingRoomText,
+                        {color: ContestContent ? '#FFFFFF' : '#CCCCCC'}, // Change text color when disabled
+                      ]}>
+                      Update Draft
+                    </Text>
+                  </View>
+                </Pressable>
+              </View>
+              {tossDelayed ? (
+                <Text
+                  style={[
+                    styles.teamnm,
+                    styles.wnrtxt,
+                    {color: '#90EE90', fontSize: 12, marginTop: 10},
+                  ]}>
+                  {`Please wait. The toss will be announced shortly`}
+                </Text>
+              ) : (
+                ''
+              )}
+
+              <TouchableOpacity
+                style={{marginTop: 12}}
+                onPress={() => {
+                  // Open the hyperlink
+                  Linking.openURL(
+                    'https://player6sports.com/pdf/HowtoPlayPlayer6.pdf',
+                  ).catch(err => console.error('Failed to open URL:', err));
+                  let properties = new MoEProperties();
+                  properties.addAttribute('Game rules', true);
+                  ReactMoE.trackEvent('Match tile', properties);
+                }}>
+                <Text
+                  style={[
+                    styles.termsCondition,
+                    {color: '#279bff', fontSize: 12, fontWeight: 'bold'},
+                  ]}>
+                  How To Play?
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
+
+export default WithProgress(inject('UserStore')(observer(PickTeamForToss)));
